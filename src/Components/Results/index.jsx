@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Results(props) {
+const Results = (props) => {
 
   return (
     <section>

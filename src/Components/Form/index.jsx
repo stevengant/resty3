@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Form.scss';
 
-function Form(props) {
+const Form = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault();
