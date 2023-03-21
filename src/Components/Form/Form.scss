@@ -1,0 +1,34 @@
+$backgroundColor: #efefef;
+$radius: 5%;
+$color: white;
+
+form {
+  display: inline-block;
+  margin: auto;
+  width: 200px;
+  color: $color;
+
+
+
+  button {
+    border-radius: $radius;
+    background-color: #15d04d;
+  }
+  label {
+    display: flex;
+    margin: 1rem 0;
+
+    &.methods {
+      span {
+        cursor: pointer;
+        margin-right: 1rem;
+        padding: .25rem .5rem;
+        background: #15d04d;
+        border-radius: $radius;
+        &:hover, &.active {
+          background: #fff;
+        }
+      }
+    }
+  }
+}
