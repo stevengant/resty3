@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -18,9 +18,39 @@ function App() {
   const [requestParams, setRequestParams] = useState({});
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (requestParams.url) {
+      callApi(requestParams);
+    }
+  }, [requestParams]);
+
+  const requestParamsUpdate = (requestParams) => {
+    setRequestParams(requestParams);
+  };
+
   const callApi = async(requestParams) => {
+    const { method, url, body } = requestParams;
+
     setLoading(true);
     try {
+      if (!url) {
+        alert("Please enter a valid URL");
+
+      } else {
+        const res = await axios({
+          method,
+          url,
+          data: body,
+        });
+
+        setData({
+          headers: res.headers,
+          body: res.data,
+          status: res.status,
+        });
+
+        setLoading(false);
+      }
       const response = await axios.get(requestParams.url);
       console.log('Response Data: ', response.data);
       const {id, name, abilities} = response.data;
@@ -42,7 +72,7 @@ function App() {
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={callApi} />
+      <Form handleApiCall={callApi} requestParamsUpdate={requestParamsUpdate} />
       <Results data={data} loading={loading} />
       <Footer />
     </>
