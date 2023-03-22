@@ -16,9 +16,7 @@ In phase 2, we will be receiving user input in preparation of connecting to live
 
 ### Setup
 
-#### `.env` requirements (where applicable)
-
-for now I have none and do not require one
+- `npm install`
 
 
 #### How to initialize/run your application (where applicable)

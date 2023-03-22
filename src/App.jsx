@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import './App.scss';
 
@@ -15,37 +16,32 @@ function App() {
 
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
-  
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     data: null,
-  //     requestParams: {},
-  //   };
-  // }
 
-  const callApi = (requestParams) => {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    setData(data);
-    setRequestParams(requestParams);
-  }
+  const callApi = async(requestParams) => {
+    try {
+      const response = await axios.get(requestParams.url);
+      console.log('Response Data: ', response.data);
+      const {id, name, abilities} = response.data;
+      const pokeData = {id, name, abilities};
+      setData(pokeData);
+      setRequestParams(requestParams);
+      console.log('Pokemon Data: ', pokeData);
+
+    } catch (error) {
+      console.log(error.message);
+
+    }
+  };
 
   return (
-    <React.Fragment>
+    <>
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
       <Form handleApiCall={callApi} />
       <Results data={data} />
       <Footer />
-    </React.Fragment>
+    </>
   );
 }
 
