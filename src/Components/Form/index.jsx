@@ -1,14 +1,14 @@
-import React from 'react';
-
+import { useState } from 'react';
 import './Form.scss';
 
 const Form = (props) => {
+  const [pokeName, setPokeName] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = {
       method: 'GET',
-      url: 'https://pokeapi.co/api/v2/pokemon',
+      url: `https://pokeapi.co/api/v2/pokemon/${pokeName.toLowerCase()}`,
     };
     props.handleApiCall(formData);
   }
@@ -19,7 +19,7 @@ const Form = (props) => {
       <form onSubmit={handleSubmit}>
         <label >
           <span>URL: </span>
-          <input name='url' type='text' />
+          <input name='url' type='text' value={pokeName} onChange = {(e) => setPokeName(e.target.value)}/>
           <button type="submit">GO!</button>
         </label>
         <label className="methods">
