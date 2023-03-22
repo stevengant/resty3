@@ -2,13 +2,16 @@ import { useState } from 'react';
 import './Form.scss';
 
 const Form = (props) => {
-  const [pokeName, setPokeName] = useState('');
+  const [method, setMethod] = useState('');
+  const [url, setUrl] = useState('');
+  const [data, setData] = useState('');
 
   const handleSubmit = e => {
     e.preventDefault();
     const formData = {
-      method: 'GET',
-      url: `https://pokeapi.co/api/v2/pokemon/${pokeName.toLowerCase()}`,
+      method,
+      url,
+      data,
     };
     props.handleApiCall(formData);
   }
@@ -19,19 +22,26 @@ const Form = (props) => {
       <form onSubmit={handleSubmit}>
         <label >
           <span>URL: </span>
-          <input name='url' type='text' value={pokeName} onChange = {(e) => setPokeName(e.target.value)}/>
+          <input data-testid="url-input" name='url' type='text' onChange = {(e) => setUrl(e.target.value)}/>
           <button type="submit">GO!</button>
         </label>
+        <label>json data (if necessary)
+          <textarea rows="4" cols="50" onChange={(e) => setData(e.target.value)}/>
+        </label>
         <label className="methods">
-          <span id="get">GET</span>
-          <span id="post">POST</span>
-          <span id="put">PUT</span>
-          <span id="delete">DELETE</span>
+          <span data-testid="get-span" onClick={(e) => setMethod(e.target.id)}
+            style={{ backgroundColor: method === 'get' ? 'gray' : '#ccc' }} id="get">GET</span>
+          <span data-testid="post-span" onClick={(e) => setMethod(e.target.id)}
+            style={{ backgroundColor: method === 'post' ? 'gray' : '#ccc' }} id="post">POST</span>
+          <span data-testid="put-span" onClick={(e) => setMethod(e.target.id)}
+            style={{ backgroundColor: method === 'put' ? 'gray' : '#ccc' }} id="put">PUT</span>
+          <span data-testid="delete-span" onClick={(e) => setMethod(e.target.id)}
+            style={{ backgroundColor: method === 'delete' ? 'gray' : '#ccc' }} id="delete">DELETE</span>
         </label>
       </form>
     </>
   );
-}
+};
 
 
 export default Form;

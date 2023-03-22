@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import './App.scss';
@@ -53,8 +53,10 @@ function App() {
 
   const [data, setData] = useState(null);
   const [requestParams, setRequestParams] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const callApi = async(requestParams) => {
+    setLoading(true);
     try {
       const response = await axios.get(requestParams.url);
       console.log('Response Data: ', response.data);
@@ -68,6 +70,8 @@ function App() {
       console.log(error.message);
 
     }
+
+    setLoading(false);
   };
 
   return (
@@ -76,7 +80,7 @@ function App() {
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      <Results data={data} />
+      <Results data={data} loading={loading} />
       <Footer />
     </>
   );
