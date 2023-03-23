@@ -19,19 +19,29 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (requestParams.url) {
-      callApi(requestParams);
+    const getData = async () => {
+      if (requestParams.method && requestParams.url) {
+        setLoading(true);
+
+        const response = await axios(requestParams);
+        const data = response.data;
+        setData(data);
+        setLoading(false);
+      }
     }
+
+    getData();
+
   }, [requestParams]);
 
   const requestParamsUpdate = (requestParams) => {
     setRequestParams(requestParams);
   };
 
-  const callApi = async(requestParams) => {
+  const callApi = async (requestParams) => {
     const { method, url, body } = requestParams;
 
-    setLoading(true);
+
     try {
       if (!url) {
         alert("Please enter a valid URL");
@@ -49,15 +59,15 @@ function App() {
           status: res.status,
         });
 
-        setLoading(false);
+
       }
       const response = await axios.get(requestParams.url);
       console.log('Response Data: ', response.data);
-      const {id, name, abilities} = response.data;
-      const pokeData = {id, name, abilities};
+      const { id, name, abilities } = response.data;
+      const pokeData = { id, name, abilities };
       setData(pokeData);
       setRequestParams(requestParams);
-      console.log('Pokemon Data: ', pokeData);
+      // console.log('Pokemon Data: ', pokeData);
 
     } catch (error) {
       console.log(error.message);
